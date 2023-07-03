@@ -1,0 +1,30 @@
+#propsval:
+#  props:
+#    file:
+#      temp.upload.dir: c:\temp4\
+#      "[default.upload.dir]": c:\temp3\
+#      default.upload.file.extension: "|png|jpg|"
+#      default.deny.file.extension: "|exe|jsp|"
+#      default.upload.file.size: 10
+#      sample.upload.dir: c:\temp3\
+#      sample.upload.file.extension: "|png|jpg|"
+#      sample.deny.file.extension: "|exe|jsp|"
+#      sample.upload.file.size: 10
+#
+#      test.upload.file.size: 10
+
+
+#      spring.servlet.multipart.enabled: 멀티파트 업로드 지원여부 (default: true)
+#      spring.servlet.multipart.file-size-threshold: 파일이 메모리에 기록되는 임계값 (default: 0B)
+#      spring.servlet.multipart.location: 업로드된 파일의 임시 저장 공간
+#      spring.servlet.multipart.max-file-size: 파일의 최대 사이즈 (default: 1MB 10KB)
+#      spring.servlet.multipart.max-request-size: 요청의 최대 사이즈 (default: 10MB)
+
+spring.servlet.multipart.max-file-size: 10MB
+#spring.servlet.multipart.max-request-size: 10MB
+##spring.servlet.multipart.file-size-threshold: 1KB
+#spring.servlet.multipart.enabled: true
+#spring.servlet.multipart.location: c:\temp4\
+##spring.servlet.multipart.location=${java.io.tmpdir}
+
+

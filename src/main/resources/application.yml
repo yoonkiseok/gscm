@@ -1,0 +1,83 @@
+
+spring:
+  profiles:
+    activate:
+      on-profile: dev
+      include: dev-file
+
+
+---
+
+spring:
+  #profiles: dev
+  #profiles.include: dev-file
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:sqlserver://14.51.233.156:1433;databaseName=KVACUSR_PASSBOT;encrypt=false
+    url: jdbc:log4jdbc:sqlserver://14.51.233.156:1433;databaseName=KVACUSR_PASSBOT;encrypt=false
+    username: User1
+    password: 1234
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      pool-name: MyHikariCP
+      connection-test-query: SELECT 1
+      connection-init-sql: SELECT 1
+
+
+
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+
+
+
+app:
+  locale: ko
+
+# HikariCP 로깅 관련 설정
+logging:
+  level:
+    root: INFO
+    com.zaxxer.hikari.HikariConfig: INFO
+    com.tkg.com.tkg.gscm: INFO
+    org.springframework: INFO
+    jdbc.sqlonly: DEBUG
+    jdbc.audit: OFF
+    jdbc.resultset: OFF
+    jdbc.resultsettable: INFO
+    jdbc.sqltiming: OFF
+
+
+#
+
+
+
+server:
+  port: 10000
+  error:
+    whitelabel:
+      enabled: false
+
+
+
+management:
+  endpoints:
+    jmx:
+      enabled: true
+
+#swagger doc 생성여부 설정: http://<도메인>:<포트>/<컨텍스트 경로>/v3/api-docs (예: http://localhost:10000/swagger-ui.html)
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html

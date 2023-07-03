@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tkg.gscm.sample.dao.MemberDao">
+    <select id="memberList" resultType="HashMap">
+        SELECT
+            ID AS "id"
+            ,NAME AS "name"
+        FROM TB_TKG_TEST
+    </select>
+
+    <update id="memberUpdate" parameterType="HashMap">
+        UPDATE TB_TKG_TEST SET NAME = #{name}
+        WHERE  ID = #{id}
+    </update>
+
+    <insert id="memberInsert" parameterType="HashMap">
+        INSERT INTO   TB_TKG_TEST (ID, NAME)
+               VALUES (#{id}, #{name})
+    </insert>
+
+    <delete id="memberDelete" parameterType="HashMap">
+        DELETE FROM  TB_TKG_TEST
+        WHERE  ID = #{id}
+    </delete>
+</mapper>
