@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tkg.gscm.sample.dao.CommonCodeDao">
+
+    <select id="selectCommonGroupCodeList" resultType="HashMap">
+        SELECT
+            A.GROUP_CD
+            , A.CD
+	<choose>
+		<when test="localeType == 'en' ">
+            , A.CD_EN_NM
+		</when>
+		<when test="localeType == 'vn' ">
+            , A.CD_VN_NM
+		</when>
+		<when test="localeType == 'id' ">
+            , A.CD_ID_NM
+		</when>
+		<otherwise>
+            , A.CD_NM
+		</otherwise>
+	</choose>                  
+        FROM TB_TKG_GROUP_CODE_TEST A
+        WHERE 1=1
+        AND A.USE_YN = 'Y'
+    </select>
+
+    <select id="selectCommonCodeList" resultType="HashMap">
+        SELECT
+            A.SUB_CD
+            , A.GROUP_CD
+	<choose>
+		<when test="localeType == 'en' ">
+            , A.CD_EN_NM
+		</when>
+		<when test="localeType == 'vn' ">
+            , A.CD_VN_NM
+		</when>
+		<when test="localeType == 'id' ">
+            , A.CD_ID_NM
+		</when>
+		<otherwise>
+            , A.CD_NM
+		</otherwise>
+	</choose>            
+        FROM TB_TKG_CODE_TEST A
+        WHERE 1=1
+        AND A.GROUP_CD = #{groupCd}
+        AND A.USE_YN = 'Y'
+        ORDER BY A.ORD_SEQ ASC
+    </select>
+
+
+	<select id="selectListCodeGroup" resultType="HashMap">
+	/* CommonCodeDao.selectListCodeGroup */
+		<![CDATA[
+            SELECT  
+                   A.GROUP_CD    
+                 , A.CD_NM AS GROUP_CD_NM  
+			  FROM TB_TKG_GROUP_CODE_TEST A
+			 WHERE 1=1
+			   AND A.USE_YN = 'Y'
+          ORDER BY A.CD_NM
+          ]]>   	
+	</select>
+
+	<select id="selectListCode" resultType="HashMap">
+	/* CommonCodeDao.selectListCodeGroup */
+		<![CDATA[
+            SELECT  
+                   A.GROUP_CD    
+                 , A.CD_NM AS GROUP_CD_NM  
+                 , B.SUB_CD 
+			     , B.GROUP_CD 
+                 , B.CD_NM AS SUB_CD_NM 
+			  FROM TB_TKG_GROUP_CODE_TEST A
+			     , TB_TKG_CODE_TEST B
+			 WHERE A.GROUP_CD = B.GROUP_CD
+			   AND A.USE_YN = 'Y'
+               AND B.USE_YN = 'Y'
+          ORDER BY A.CD_NM
+                 , B.ORD_SEQ 
+          ]]>   	
+	</select>
+
+</mapper>
