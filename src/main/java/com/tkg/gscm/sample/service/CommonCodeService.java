@@ -30,12 +30,12 @@ public class CommonCodeService {
 	
 	public List<HashMap<String, Object>> selectCommonGroupCodeList(HashMap<String, Object> paramMap) throws Exception {
 //		return commonDao.selectCommonGroupCodeList(paramMap);
-        return commonDao.selectList("com.tkg.gscm.sample.dao.CommonCodeDao.selectCommonGroupCodeList");
+        return commonDao.selectList("com.tkg.gscm.sample.dao.CommonCodeDao.selectCommonGroupCodeList", paramMap);
 	}
 	
 	public List<HashMap<String, Object>> selectCommonCodeList(HashMap<String, Object> paramMap) throws Exception {
 //		return commonDao.selectCommonCodeList(paramMap);
-        return commonDao.selectList("com.tkg.gscm.sample.dao.CommonCodeDao.selectCommonCodeList");
+        return commonDao.selectList("com.tkg.gscm.sample.dao.CommonCodeDao.selectCommonCodeList", paramMap);
 	}
 	
 	@PostConstruct

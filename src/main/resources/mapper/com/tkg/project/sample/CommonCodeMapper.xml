@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tkg.gscm.sample.dao.CommonCodeDao">
 
-    <select id="selectCommonGroupCodeList" resultType="HashMap">
+    <select id="selectCommonGroupCodeList" parameterType="HashMap" resultType="HashMap">
         SELECT
             A.GROUP_CD
             , A.CD
@@ -25,7 +25,7 @@
         AND A.USE_YN = 'Y'
     </select>
 
-    <select id="selectCommonCodeList" resultType="HashMap">
+    <select id="selectCommonCodeList" parameterType="HashMap" resultType="HashMap">
         SELECT
             A.SUB_CD
             , A.GROUP_CD

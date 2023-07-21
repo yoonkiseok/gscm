@@ -34,6 +34,7 @@ public class CommonCodeController {
         // 스레드 로컬에 값을 설정: 값설정 가능한 데이타 타입 존재
         ThreadLocalUtil.setThreadLocalValue("Value from Controller");
 
+        paramMap.put("localeType", "en");
         // Service 호출
         List<HashMap<String,Object>> dataList =  codeService.selectCommonGroupCodeList(paramMap);
 
