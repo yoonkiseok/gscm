@@ -1,7 +1,10 @@
 package com.tkg.gscm.sample.service;
 
 
+
 import com.tkg.gscm.common.db.CommonDao;
+import com.tkg.gscm.common.util.TkQueryGenerator;
+import com.tkg.gscm.common.vo.CommonInVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -9,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MemberService {
@@ -19,6 +23,9 @@ public class MemberService {
     public MemberService(CommonDao commonDao){
         this.commonDao = commonDao;
     }
+
+    @Autowired
+    private TkQueryGenerator queryGenerator;
 
 
 
@@ -65,6 +72,27 @@ public class MemberService {
 //        if (1==1) {
 //            throw new Exception("테스트 에러말생");
 //        }
+    }
+
+
+    public void commonQuery(CommonInVo inVo) throws Exception{
+
+//        AS-IS CommonService.java 파일의 아래 함수부분을 참고
+//        public CommonOutVo selectCommonQgList(CommonInVo inVo) throws Exception {}
+
+
+
+//        CommonOutVo outVo = new CommonOutVo();
+
+        String queryId = (String)inVo.getInParam("userQueryID");
+
+//        테스트시 SessionUtil 에 로그인시 데이타를 넣어 주어야 된다.
+
+        Map<String, Object> paramMap = queryGenerator.getQgParamMap(inVo);
+        paramMap.put("dsBucket", inVo.getInList("dsBucket"));
+
+        List<Map<String,Object>> dsList = commonDao.selectList(queryId, paramMap);
+
     }
 
 }

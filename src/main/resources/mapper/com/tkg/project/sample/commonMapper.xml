@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tkg.gscm.sample.dao.CommonDao">
+    <select id="com-cello-tk-dao-commonDao-selectAllDimensionList" parameterType="hashmap" resultType="hashmap" lang="velocity">
+        <![CDATA[
+        /* com-cello-tk-dao-commonDao-selectAllDimensionList */
+        SELECT A.CLNT_CD
+             , A.DMSN_ID
+             , A.DMSN_LEVEL
+             , CASE A.DMSN_LEVEL WHEN 1 THEN B.DMSN_DISP_NM
+                                 ELSE A.DMSN_LEVEL_NM
+            END AS DMSN_LEVEL_NM
+             , B.DMSN_CTGRY_CD
+             , A.DMSN_HRCHY_TCD
+             , B.EX_COL_VAL3   AS DIM_COL_NM
+             , A.DMSN_LEVEL_ID AS DIM_COL_ID
+             , A.DMSN_TCD
+        FROM (
+                 SELECT A.CLNT_CD
+                      , A.DMSN_ID
+                      , B.DMSN_LEVEL
+                      , B.DMSN_LEVEL_ID
+                      , B.DMSN_LEVEL_DISP_NM${_parameter.langEx} AS DMSN_LEVEL_NM
+                      , A.DMSN_HRCHY_TCD
+                      , NVL(D.DMSN_TCD, 'ETC') AS DMSN_TCD
+                 FROM (
+                     SELECT A.CLNT_CD
+                          , A.DMSN_ID
+                          , A.DMSN_HRCHY_TCD
+                     FROM CELLOPL.TCOM_SCRN_DMSN A
+                     WHERE A.CLNT_CD        = '${_parameter.clntCd}'
+                       AND A.SCRN_ID        = '${_parameter.scrnId}'
+                       AND A.DISP_LOC_CCD   = 'BD'
+                     GROUP BY
+                         A.CLNT_CD
+                            , A.DMSN_ID
+                            , A.DMSN_HRCHY_TCD
+                 ) A
+                    , CELLOPL.TMD_DMSN_LEVEL B
+                    , CELLOPL.TMD_DMSN_HRCHY C
+                    , CELLOPL.TMD_DMSN       D
+                 WHERE 1 = 1
+                   AND B.CLNT_CD        = A.CLNT_CD
+                   AND B.DMSN_ID        = A.DMSN_ID
+                   AND B.DMSN_HRCHY_TCD = A.DMSN_HRCHY_TCD
+                   AND B.DMSN_LEVEL     > 1
+                   AND B.USE_YN         = 'Y'
+                   AND C.CLNT_CD        = A.CLNT_CD
+                   AND C.DMSN_ID        = A.DMSN_ID
+                   AND C.DMSN_HRCHY_TCD = A.DMSN_HRCHY_TCD
+                   AND D.CLNT_CD        = A.CLNT_CD
+                   AND D.DMSN_ID        = A.DMSN_ID
+                 UNION ALL
+                 SELECT A.CLNT_CD
+                      , B.ATTR_CTGRY_CD2 AS DMSN_ID
+                      , 9                AS DMSN_LEVEL
+                      , B.ATTR_ID        AS DMSN_LEVEL_ID
+                      , B.ATTR_NM        AS DMSN_LEVEL_NM
+                      , ''               AS DMSN_HRCHY_TCD
+                      , 'ATTR'           AS DMSN_TCD
+                 FROM CELLOPL.TCOM_SCRN_ENTY_ATTR A
+                    , CELLOPL.TMD_ATTR_POOL       B
+                 WHERE 1 = 1
+                   AND A.CLNT_CD = '${_parameter.clntCd}'
+                   AND A.SCRN_ID = '${_parameter.scrnId}'
+                   AND B.CLNT_CD = A.CLNT_CD
+                   AND B.ATTR_ID = A.ATTR_ID
+                   AND B.USE_YN = 'Y'
+             ) A,
+             (
+                 SELECT A.CLNT_CD
+                      , A.DMSN_ID
+                      , A.DMSN_DISP_NM
+                      , A.DMSN_NM
+                      , A.DMSN_CTGRY_CD
+                      , B.EX_COL_VAL1
+                      , B.EX_COL_VAL2
+                      , B.EX_COL_VAL3
+                      , A.DISP_ORDB
+                 FROM TMD_DMSN     A
+                    , TCOM_CD_DETL B
+                 WHERE 1 = 1
+                   AND A.CLNT_CD = '${_parameter.clntCd}'
+                   AND B.CD_GRP_ID (+)= '10045'
+                   AND B.CD        (+)= A.DMSN_CTGRY_CD
+                   AND B.USE_YN    (+)= 'Y'
+             ) B
+        WHERE B.CLNT_CD (+)= A.CLNT_CD
+          AND B.DMSN_ID (+)= A.DMSN_ID
+        ORDER BY
+            DECODE(A.DMSN_TCD, 'ATTR', 'Z', A.DMSN_TCD)
+               , A.DMSN_LEVEL
+        ]]>
+    </select>
+</mapper>
