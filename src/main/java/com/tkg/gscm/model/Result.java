@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Splitter;
 
-public final class Result extends HashMap<String, Object> {
+public final class Result extends HashMap<String, Object> { 
 	
 	private static final long serialVersionUID = 1L;
 	
