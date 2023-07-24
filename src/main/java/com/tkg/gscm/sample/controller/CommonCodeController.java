@@ -2,6 +2,7 @@ package com.tkg.gscm.sample.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tkg.gscm.model.Result;
 import com.tkg.gscm.sample.service.CommonCodeService;
+import com.tkg.gscm.utils.RequestUtil;
 import com.tkg.gscm.utils.ThreadLocalUtil;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,19 +27,21 @@ public class CommonCodeController {
 
 	/**
 	 * 그룹 코드 리스트 가져오기 _ db에서 직접 읽어옴
-	 * @param paramMap
+	 * @param paramMap : localeType=en // 영문
+	 * @param paramMap : localeType=id // 인도네시아
+	 * @param paramMap : localeType=vn // 베트남
+	 * @param paramMap : localeType 없는 경우 국문
 	 * @return
 	 * @throws Exception
 	 */
     @GetMapping("/api/code/gclist")
-	public ResponseEntity<List<HashMap<String, Object>>> groupCodeList(@RequestParam HashMap<String,Object> paramMap) throws Exception{
+	public ResponseEntity<List<Map<String, Object>>> groupCodeList(@RequestParam Map<String,Object> paramMap) throws Exception{
 
         // 스레드 로컬에 값을 설정: 값설정 가능한 데이타 타입 존재
         ThreadLocalUtil.setThreadLocalValue("Value from Controller");
 
-        paramMap.put("localeType", "en");
         // Service 호출
-        List<HashMap<String,Object>> dataList =  codeService.selectCommonGroupCodeList(paramMap);
+        List<Map<String,Object>> dataList =  codeService.selectCommonGroupCodeList(paramMap);
 
         // 스레드 로컬에서 값을 읽어옴
         Object value = ThreadLocalUtil.getThreadLocalValue();
@@ -55,13 +60,12 @@ public class CommonCodeController {
 	 * @throws Exception
 	 */
     @GetMapping("/api/code/clist")
-	public ResponseEntity<List<HashMap<String, Object>>> codeList(@RequestParam HashMap<String,Object> paramMap) throws Exception{
+	public ResponseEntity<List<Map<String, Object>>> codeList(@RequestParam Map<String,Object> paramMap) throws Exception{
         // 스레드 로컬에 값을 설정: 값설정 가능한 데이타 타입 존재
         ThreadLocalUtil.setThreadLocalValue("Value from Controller");
 
-        paramMap.put("localeType", "en");
         // Service 호출
-        List<HashMap<String,Object>> dataList =  codeService.selectCommonCodeList(paramMap);
+        List<Map<String,Object>> dataList =  codeService.selectCommonCodeList(paramMap);
 
         // 스레드 로컬에서 값을 읽어옴
         Object value = ThreadLocalUtil.getThreadLocalValue();
@@ -79,7 +83,7 @@ public class CommonCodeController {
 	 * @throws Exception
 	 */
 	@GetMapping("/api/code/getCodeGroupNm")
-	public ResponseEntity<HashMap<String, Object>> getCodeGroupNm(@RequestParam HashMap<String,Object> paramMap) throws Exception{
+	public ResponseEntity<Map<String, Object>> getCodeGroupNm(@RequestParam Map<String,Object> paramMap) throws Exception{
         // 스레드 로컬에 값을 설정: 값설정 가능한 데이타 타입 존재
         ThreadLocalUtil.setThreadLocalValue("Value from Controller");
 
@@ -87,7 +91,7 @@ public class CommonCodeController {
         String groupNm = codeService.getCodeGroupNm(groupCd);
         
         // Service 호출
-        HashMap<String,Object> dataMap = new HashMap<String,Object>(); 
+        Map<String,Object> dataMap = new HashMap<String,Object>(); 
         dataMap.put("GROUP_NM", groupNm);
         // 스레드 로컬에서 값을 읽어옴
         Object value = ThreadLocalUtil.getThreadLocalValue();
@@ -105,7 +109,7 @@ public class CommonCodeController {
 	 * @throws Exception
 	 */
 	@GetMapping("/api/code/getCodeNm")
-	public ResponseEntity<HashMap<String, Object>> getCodeNm(@RequestParam HashMap<String,Object> paramMap) throws Exception{
+	public ResponseEntity<Map<String, Object>> getCodeNm(@RequestParam Map<String,Object> paramMap) throws Exception{
         // 스레드 로컬에 값을 설정: 값설정 가능한 데이타 타입 존재
         ThreadLocalUtil.setThreadLocalValue("Value from Controller");
 
@@ -115,8 +119,9 @@ public class CommonCodeController {
         String cdNm = codeService.getCodeNm(groupCd, subCd);
         
         // Service 호출
-        HashMap<String,Object> dataMap = new HashMap<String,Object>(); 
+        Map<String,Object> dataMap = new HashMap<String,Object>(); 
         dataMap.put("CD_NM", cdNm);
+        
         // 스레드 로컬에서 값을 읽어옴
         Object value = ThreadLocalUtil.getThreadLocalValue();
 
@@ -160,7 +165,7 @@ public class CommonCodeController {
 	public ResponseEntity<List<HashMap<String, Object>>> getCodeList(@RequestParam HashMap<String,Object> paramMap) throws Exception{
         // 스레드 로컬에 값을 설정: 값설정 가능한 데이타 타입 존재
         ThreadLocalUtil.setThreadLocalValue("Value from Controller");
-
+        
         String groupCd = String.valueOf(paramMap.get("gcd"));
         
         // Service 호출
@@ -175,5 +180,9 @@ public class CommonCodeController {
         return ResponseEntity.status(HttpStatus.OK).body(dataList);
 	} 
 	
+	@GetMapping("/api/getTest")
+	public Result getTest() {
+		return Result.SUCCESS("정상 호출!!");
+	}
 	
 }

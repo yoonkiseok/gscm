@@ -103,6 +103,22 @@
 			<version>2.1.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>32.1.1-jre</version>
+		</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-text</artifactId>
+    <version>1.10.0</version>
+</dependency>
+
+
+
 
 
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
