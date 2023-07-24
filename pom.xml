@@ -125,6 +125,26 @@
 			<version>8.1.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.cello</groupId>
+			<artifactId>cello-framework</artifactId>
+			<version>2.2.6</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/src/main/resources/libs/cello-framework-2.2.6.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.cello</groupId>
+			<artifactId>cello-planning-prp</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/src/main/resources/libs/cello-planning-prp-1.0.jar</systemPath>
+		</dependency>
+
+
+
+
+
 
 
 
